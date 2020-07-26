@@ -13,6 +13,7 @@ import com.mecontrola.spring.domain.Cidade;
 import com.mecontrola.spring.domain.Cliente;
 import com.mecontrola.spring.domain.Endereco;
 import com.mecontrola.spring.domain.Estado;
+import com.mecontrola.spring.domain.ItemPedido;
 import com.mecontrola.spring.domain.Pagamento;
 import com.mecontrola.spring.domain.PagamentoComBoleto;
 import com.mecontrola.spring.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.mecontrola.spring.repositories.CidadeRepository;
 import com.mecontrola.spring.repositories.ClienteRepository;
 import com.mecontrola.spring.repositories.EnderecoRepository;
 import com.mecontrola.spring.repositories.EstadoRepository;
+import com.mecontrola.spring.repositories.ItemPedidoRepository;
 import com.mecontrola.spring.repositories.PagamentoRepository;
 import com.mecontrola.spring.repositories.PedidoRepository;
 import com.mecontrola.spring.repositories.ProdutoRepository;
@@ -55,6 +57,9 @@ public class MeControlaApplication implements CommandLineRunner{
 	
 	@Autowired
 	private PagamentoRepository pagRep;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRep;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(MeControlaApplication.class, args);
@@ -120,6 +125,18 @@ public class MeControlaApplication implements CommandLineRunner{
 		pedidoRep.saveAll(Arrays.asList(ped1,ped2));
 		pagRep.saveAll(Arrays.asList(pagto1,pagto2));
 		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidoRep.saveAll(Arrays.asList(ip1,ip2,ip3));
 	}
 
 }

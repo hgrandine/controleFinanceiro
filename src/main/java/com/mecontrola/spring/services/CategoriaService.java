@@ -1,5 +1,7 @@
 package com.mecontrola.spring.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -20,6 +22,10 @@ public class CategoriaService {
 		 return repo.findById(id).orElseThrow(() -> new
 				 ObjectNotFoundException( "Objeto nao encontrado! id: " + id + ", Tipo: " + Categoria.class.getName())); }
 
+	public List<Categoria> findAll() {
+		return repo.findAll();
+	}
+	 
 	public Categoria insert(Categoria obj) {
 		obj.setId(null);
 		return repo.save(obj);
@@ -37,5 +43,7 @@ public class CategoriaService {
 			throw new DataIntegrityException("Não é possivel excluir uma categoria que possui produtos");
 		}
 	}
+
+
 	 
 }
